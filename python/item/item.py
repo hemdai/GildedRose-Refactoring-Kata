@@ -21,3 +21,10 @@ class UpdatableItem(ABC):
 
     def decrease_quality(self, amount=1):
         self.item.quality = max(0, self.item.quality - amount)
+
+class NormalItem(UpdatableItem):
+    def update(self):
+        self.item.sell_in -= 1
+        self.decrease_quality()
+        if self.item.sell_in < 0:
+            self.decrease_quality()
