@@ -68,6 +68,16 @@ class BackstagePass(UpdatableItem):
 
 
 class ItemFactory:
+    """Maps an item's name to the right UpdatableItem.
+
+    Add new item types here only — no other code needs to change.
+    """
     @staticmethod
     def create_item(item:Item):
+        if item.name == "Aged Brie":
+            return AgedBrie(item)
+        if item.name == "Sulfuras, Hand of Ragnaros":
+            return Sulfuras(item)
+        if item.name.startswith("Backstage passes"):
+            return BackstagePass(item)
         return NormalItem(item)
