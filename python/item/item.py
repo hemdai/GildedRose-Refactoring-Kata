@@ -28,7 +28,8 @@ class NormalItem(UpdatableItem):
         self.decrease_quality()
         if self.item.sell_in < 0:
             self.decrease_quality()
+
 class ItemFactory:
     @staticmethod
     def create_item(item:Item):
-        return NormalItem
+        return NormalItem(item)
