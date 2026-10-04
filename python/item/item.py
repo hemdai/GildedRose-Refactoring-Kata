@@ -66,6 +66,12 @@ class BackstagePass(UpdatableItem):
             return
         self.increase_quality()
 
+class ConjuredItem(UpdatableItem):
+    def update(self):
+        self.item.sell_in -= 1
+        self.decrease_quality(2)
+        if self.item.sell_in < 0:
+            self.decrease_quality(2)
 
 class ItemFactory:
     """Maps an item's name to the right UpdatableItem.
@@ -80,4 +86,6 @@ class ItemFactory:
             return Sulfuras(item)
         if item.name.startswith("Backstage passes"):
             return BackstagePass(item)
+        if item.name.startswith("Conjured"):
+            return ConjuredItem(item)
         return NormalItem(item)
