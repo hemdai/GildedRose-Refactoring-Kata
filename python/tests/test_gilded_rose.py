@@ -10,13 +10,13 @@ class GildedRoseTest(unittest.TestCase):
         items = [Item("foo", 0, 0)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(items[0].name,"foo")
+        self.assertEqual(items[0].name, "foo")
 
     def test_normal_item_quality_decreases(self):
         items = [Item("+5 Dexterity Vest", 10, 20)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(items[0].quality,19)
+        self.assertEqual(items[0].quality, 19)
         self.assertEqual(items[0].sell_in, 9)
 
     def test_sulfuras_never_changes(self):
@@ -30,7 +30,7 @@ class GildedRoseTest(unittest.TestCase):
         items = [Item("Aged Brie", 10, 50)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(items[0].quality,50)
+        self.assertEqual(items[0].quality, 50)
 
     def test_quality_never_negative(self):
         items = [Item("+5 Dexterity Vest", 10, 0)]
@@ -62,5 +62,6 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEqual(items[0].quality, 18)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

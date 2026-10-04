@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+
+
 class Item:
     def __init__(self, name, sell_in, quality):
         self.name = name
@@ -8,16 +10,20 @@ class Item:
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
+
 # Constants
 # ──────────────────────────────────────────────────────────────────────
 MIN_QUALITY = 0
 MAX_QUALITY = 50
+
+
 class UpdatableItem(ABC):
     """Base class for all item updaters.
 
     Wraps an Item and provides safe quality mutation helpers so subclasses
     don't need to worry about the 0-50 boundary.
     """
+
     def __init__(self, item: Item):
         self.item = item
 
@@ -32,13 +38,16 @@ class UpdatableItem(ABC):
     def decrease_quality(self, amount=1):
         self.item.quality = max(MIN_QUALITY, self.item.quality - amount)
 
+
 class NormalItem(UpdatableItem):
     """Standard item: -1/day before sell date, -2/day after."""
+
     def update(self):
         self.item.sell_in -= 1
         self.decrease_quality()
         if self.item.sell_in < 0:
             self.decrease_quality()
+
 
 class AgedBrie(UpdatableItem):
     """Aged Brie updater.
@@ -47,22 +56,27 @@ class AgedBrie(UpdatableItem):
         - Before sell date: quality +1
         - After sell date: quality +2
     """
+
     def update(self):
         self.item.sell_in -= 1
         self.increase_quality()
         if self.item.sell_in < 0:
             self.increase_quality()
 
+
 class Sulfuras(UpdatableItem):
-    """ Legendary item — never changes (sell_in and quality stay fixed). """
+    """Legendary item — never changes (sell_in and quality stay fixed)."""
+
     def update(self):
         pass
+
 
 class BackstagePass(UpdatableItem):
     """Backstage passes: value rises as concert nears, drops to 0 after.
 
     +1 normally, +2 within 10 days, +3 within 5 days, 0 after concert.
     """
+
     def update(self):
         self.item.sell_in -= 1
         # Check Logic from smaller due to less value has multiple declaration
@@ -77,21 +91,25 @@ class BackstagePass(UpdatableItem):
             return
         self.increase_quality()
 
+
 class ConjuredItem(UpdatableItem):
     """Conjured items degrade twice as fast: -2/day, -4/day after sell date."""
+
     def update(self):
         self.item.sell_in -= 1
         self.decrease_quality(2)
         if self.item.sell_in < 0:
             self.decrease_quality(2)
 
+
 class ItemFactory:
     """Maps an item's name to the right UpdatableItem.
 
     Add new item types here only — no other code needs to change.
     """
+
     @staticmethod
-    def create_item(item:Item):
+    def create_item(item: Item):
         if item.name == "Aged Brie":
             return AgedBrie(item)
         if item.name == "Sulfuras, Hand of Ragnaros":

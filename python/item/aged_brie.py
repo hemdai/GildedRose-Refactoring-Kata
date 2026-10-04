@@ -1,4 +1,6 @@
 from item.item import UpdatableItem
+
+
 class AgedBrie(UpdatableItem):
     """Aged Brie updater.
     Aged Brie doesn't have problem with time
@@ -6,6 +8,7 @@ class AgedBrie(UpdatableItem):
         - Before sell date: quality +1
         - After sell date: quality +2
     """
+
     def update(self):
         self.item.sell_in -= 1
         self.increase_quality()

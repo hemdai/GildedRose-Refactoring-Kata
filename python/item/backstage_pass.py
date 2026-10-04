@@ -1,10 +1,12 @@
 from item.item import UpdatableItem
 
+
 class BackstagePass(UpdatableItem):
     """Backstage passes: value rises as concert nears, drops to 0 after.
 
     +1 normally, +2 within 10 days, +3 within 5 days, 0 after concert.
     """
+
     def update(self):
         self.item.sell_in -= 1
         # Check Logic from smaller due to less value has multiple declaration
