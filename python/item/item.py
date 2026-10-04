@@ -8,21 +8,32 @@ class Item:
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
+# Constants
+# ──────────────────────────────────────────────────────────────────────
+MIN_QUALITY = 0
+MAX_QUALITY = 50
 class UpdatableItem(ABC):
+    """Base class for all item updaters.
+
+    Wraps an Item and provides safe quality mutation helpers so subclasses
+    don't need to worry about the 0-50 boundary.
+    """
     def __init__(self, item: Item):
         self.item = item
 
     @abstractmethod
     def update(self):
+        """Update sell_in and quality for a single day."""
         pass
 
     def increase_quality(self, amount=1):
-        self.item.quality = min(50, self.item.quality + amount)
+        self.item.quality = min(MAX_QUALITY, self.item.quality + amount)
 
     def decrease_quality(self, amount=1):
-        self.item.quality = max(0, self.item.quality - amount)
+        self.item.quality = max(MIN_QUALITY, self.item.quality - amount)
 
 class NormalItem(UpdatableItem):
+    """Standard item: -1/day before sell date, -2/day after."""
     def update(self):
         self.item.sell_in -= 1
         self.decrease_quality()
@@ -67,6 +78,7 @@ class BackstagePass(UpdatableItem):
         self.increase_quality()
 
 class ConjuredItem(UpdatableItem):
+    """Conjured items degrade twice as fast: -2/day, -4/day after sell date."""
     def update(self):
         self.item.sell_in -= 1
         self.decrease_quality(2)
