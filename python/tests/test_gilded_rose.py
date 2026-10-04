@@ -2,6 +2,7 @@
 import unittest
 
 from gilded_rose import Item, GildedRose
+import gilded_rose
 
 
 class GildedRoseTest(unittest.TestCase):
@@ -9,7 +10,14 @@ class GildedRoseTest(unittest.TestCase):
         items = [Item("foo", 0, 0)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual("foo", items[0].name)
+        self.assertEqual(items[0].name,"foo")
+
+    def test_normal_item_quality_decreases(self):
+        items = [Item("Charger cable type C", 10, 20)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(items[0].quality,19)
+        self.assertEqual(items[0].sell_in, 9)
 
 
 if __name__ == '__main__':
