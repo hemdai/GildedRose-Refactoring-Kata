@@ -42,6 +42,11 @@ class AgedBrie(UpdatableItem):
         if self.item.sell_in < 0:
             self.increase_quality()
 
+class Sulfuras(UpdatableItem):
+    """ Legendary item — never changes (sell_in and quality stay fixed). """
+    def update(self):
+        pass
+
 class ItemFactory:
     @staticmethod
     def create_item(item:Item):
