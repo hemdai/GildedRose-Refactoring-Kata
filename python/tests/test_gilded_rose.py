@@ -13,7 +13,7 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(items[0].name,"foo")
 
     def test_normal_item_quality_decreases(self):
-        items = [Item("Charger cable type C", 10, 20)]
+        items = [Item("+5 Dexterity Vest", 10, 20)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(items[0].quality,19)
@@ -33,7 +33,7 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(items[0].quality,50)
 
     def test_quality_never_negative(self):
-        items = [Item("Handbag Skinny", 10, 0)]
+        items = [Item("+5 Dexterity Vest", 10, 0)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(items[0].quality, 0)
